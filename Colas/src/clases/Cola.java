@@ -14,18 +14,10 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class Cola {
-    
-    private ColaPrioridadM colaEspera = new ColaPrioridadM();
-    private ColaPrioridadM colaAux;
+    Monticulo colaEspera = new MonticuloMinimo();
+    //private ColaPrioridadM colaEspera = new ColaPrioridadM();
+    //private ColaPrioridadM colaAux;
 
-    public ColaPrioridadM getColaEspera() {
-        return colaEspera;
-    }
-
-    public void setColaEspera(ColaPrioridadM colaEspera) {
-        this.colaEspera = colaEspera;
-    }
-        
 	// final de la clase DatosCliente
 
 	// cola del servicio
@@ -40,8 +32,10 @@ public class Cola {
 	* Nuevo cliente; se mete en la cola de espera
 	*/
 	public void nuevoEvento(Cliente cliente, int fecha) throws Exception{
-            Tarea tarea = new Tarea(cliente, fecha);
-            colaEspera.inserEnPrioridad(tarea);
+            //Tarea tarea = new Tarea(cliente, fecha);
+            System.out.println("fecha string "+fecha);
+            colaEspera.insertar(fecha);
+            
            // colaEspera.getCp().conseguirArreglo();
 	}
 
@@ -52,12 +46,13 @@ public class Cola {
 
 	 
 
-	public Cliente atenderCliente() throws NoSuchElementException, Exception{
-            //Evento eventoAtendido;
+	/*public Cliente atenderCliente() throws NoSuchElementException, Exception{
+        /   //Evento eventoAtendido;
             Tarea tarea = colaEspera.quitarMin();
             System.out.println(tarea.item);
             return (Cliente)tarea.item;
-	}
+            return ()
+	}*/
 
 
 	/**
@@ -84,21 +79,18 @@ public class Cola {
             Object[] fila = new Object[3];
             
             
-            colaAux = colaEspera;
-            
-                //JOptionPane.showMessageDialog(null, "Entro");
-            
-            while(!colaAux.colaPrioridadVacia()){
-                Tarea tarea = colaEspera.quitarMin();
-                Cliente cliente = (Cliente)tarea.item;
-                fila[0]=cliente.getNombre();
-                fila[1]=cliente.getDescripcion();
-                fila[2]=tarea.prioridad;
+            while(!colaEspera.esVacio()){
+               // Tarea tarea = colaEspera.();
+              //  Cliente cliente = (Cliente)tarea.item;
+                fila[2]=pos ;//colaEspera.valores[pos];
+              //  fila[0]=cliente.getNombre();
+               // fila[1]=cliente.getDescripcion();
+                //fila[2]=tarea.prioridad;
 
                 tableModel.addRow(fila);
                     pos++;
                 }
-                System.err.println("esta aqui");
+            
                 return tableModel;
 	}
     

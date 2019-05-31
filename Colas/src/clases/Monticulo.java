@@ -7,175 +7,154 @@ package clases;
 
 import javax.swing.JOptionPane;
 
-public class Monticulo {
+public abstract class Monticulo {
 
-    static final int TAMINI = 20;
+    static final int TAMINI = 5;
     private int numElem;
-    private Comparador[] v;
+    public int[] valores;
+
+    protected int[] nodo;
+    private static final int RAIZ = 1;
 
     public Monticulo() {
         numElem = 0;
-        v = new Comparador[TAMINI];
+
+        this.nodo = new int[TAMINI + 1];
     }
 
-    public static int padre(int i) {
-        return (i - 1) / 2;
-    }
+	private int padre(int i) {
+		return i / 2;
+	}
 
-    public static int hijoIzq(int i) {
-        return (2 * i + 1);
-    }
+	private int hijoIzquierdo(int i) {
+		return 2 * i;
+	}
 
-    public static int hijoDer(int i) {
-        return (2 * i + 1) + 1;
-    }
+	private int hijoDerecho(int i) {
+		return 2 * i + 1;
+	}
 
-    private void flotar(int i) {
-        Comparador nuevaClave = v[i];
-        while ((i > 0) && (v[padre(i)].mayorQue(nuevaClave))) {
-            v[i] = v[padre(i)]; // baja el padre al hueco
-            i = padre(i); // sube un nivel en el árbol
+    private void flotar(int actual) {
+        while (!condicion(actual, padre(actual))) {
+            intercambiar(actual, padre(actual));
+            actual = padre(actual);
+
         }
-        v[i] = nuevaClave; // sitúa la clave en su posición
-        
+
     }
 
     private boolean monticuloLleno() {
-        return (numElem == v.length);
+        // return (numElem == v.length);
+        return (numElem == nodo.length);
     }
 
-    private void ampliar() {
-        Comparador[] anteriorV = v;
-        v = new Comparador[numElem + TAMINI];
-        for (int j = 0; j < numElem; j++) {
-            v[j] = anteriorV[j];
-        }
-    }
+    public void insertar(int clave) {
 
-    public void insertar(Comparador clave) {
         if (monticuloLleno()) {
-            ampliar();
+            throw new IllegalStateException("No se puede insertar nuevo elemento. Montículo lleno.");
         }
-        v[numElem] = clave;
-        flotar(numElem);
-        numElem=numElem+1;
-        JOptionPane.showMessageDialog(null, numElem);
-    }
 
-    public Comparador buscarMinimo() throws Exception {
-        if (esVacio()) {
-            throw new Exception("Acceso a montículo vacío");
+        nodo[++numElem] = clave;
+
+        flotar(numElem);
+
+        montar();
+        this.valores = nodo;
+        for (int i = 0; i < nodo.length; i++) {
+            System.out.println("valor del nodo" + " " + nodo[i]);
         }
-        return v[0];
+        JOptionPane.showMessageDialog(null, numElem);
     }
 
     public boolean esVacio() {
         return numElem == 0;
     }
 
-    public void criba(int raiz) {
-        boolean esMonticulo;
-        int hijo;
-        esMonticulo = false;
-        while ((raiz < numElem / 2) && !esMonticulo) {
-            // determina el índice del hijo menor
-            if (hijoIzq(raiz) == (numElem - 1)) // único descendiente
-            {
-                hijo = hijoIzq(raiz);
-            } else if (v[hijoIzq(raiz)].menorQue(v[hijoDer(raiz)])) {
-                hijo = hijoIzq(raiz);
-            } else {
-                hijo = hijoDer(raiz);
-            }
-            // compara raiz con el menor de los hijos
-            if (v[hijo].menorQue(v[raiz])) {
-                Comparador t = v[raiz];
-                v[raiz] = v[hijo];
-                v[hijo] = t;
-                raiz = hijo;
-                /* continua por la rama de claves mínimas */
-            } else {
-                esMonticulo = true;
-            }
+    public int eliminar() throws IllegalStateException {
+        if (this.estaVacio()) {
+            throw new IllegalStateException("No se puede eliminar un elemento. Montículo vacío.");
         }
+        int nodo = this.nodo[RAIZ];
+        this.nodo[RAIZ] = this.nodo[numElem--];
+        this.hundir(RAIZ);
+        return nodo;
     }
 
-    public Comparador eliminarMinimo() throws Exception {
-        
-        if (esVacio()) {
-            throw new Exception("Acceso a montículo vacío");
+    private void montar() {
+        for (int i = numElem / 2; i >= 1; i--) {
+            this.hundir(i);
         }
-        Comparador menor;
-        menor = v[0];
-        v[0] = v[numElem - 1];
-        criba(0);
-        numElem--;
-        return menor;
+    }   
+
+    private boolean tieneHijoIzquierdo(int i) {
+        return this.hijoIzquierdo(i) <= numElem;
     }
 
-    public static void criba2(Comparador v[], int raiz, int ultimo) {
-        boolean esMonticulo;
-        int hijo;
-        int numElem = ultimo + 1;
-        esMonticulo = false;
-        while ((raiz < numElem / 2) && !esMonticulo) {
-            // determina el índice del hijo mayor
-            if (Monticulo.hijoIzq(raiz) == (numElem - 1)) {
-                hijo = Monticulo.hijoIzq(raiz);
-            } else if (v[Monticulo.hijoIzq(raiz)].mayorQue(
-                    v[Monticulo.hijoDer(raiz)])) {
-                hijo = Monticulo.hijoIzq(raiz);
-            } else {
-                hijo = Monticulo.hijoDer(raiz);
-            }
-            // compara raiz con el mayor de los hijos
-            if (v[hijo].mayorQue(v[raiz])) {
-                Comparador t = v[raiz];
-                v[raiz] = v[hijo];
-                v[hijo] = t;
-                raiz = hijo;
-                /* continua por la rama de claves máximas */
-            } else {
-                esMonticulo = true;
-            }
-        }
+    private boolean tieneHijoDerecho(int i) {
+        return this.hijoDerecho(i) <= numElem;
     }
 
-    public static void ordenacionMonticulo(Comparador v[], int n) {
-        int j;
-        for (j = n / 2; j >= 0; j--) {
-            criba2(v, j, n - 1);
-        }
-        for (j = n - 1; j >= 1; j--) {
-            Comparador t;
-            t = v[0];
-            v[0] = v[j];
-            v[j] = t;
-            criba2(v, 0, j - 1);
-        }
-        
+    private boolean tieneHijoUnico(int i) {
+        return this.tieneHijoIzquierdo(i) && !this.tieneHijoDerecho(i);
     }
-    
-    
-   /* public void conseguirArreglo() throws Exception{
-        //Comparador[] anteriorV = v;
-        Comparador menor;
-        
-        if (esVacio()) {
-            throw new Exception("Acceso a montículo vacío");
+
+    public boolean estaVacio() {
+        return numElem == 0;
+    }
+
+    public boolean estaLleno() {
+        return numElem == this.nodo.length - 1;
+    }
+
+    protected boolean esHoja(int i) {
+        return !this.tieneHijoIzquierdo(i) && !this.tieneHijoDerecho(i);
+    }
+
+    protected abstract boolean condicion(int hijo, int padre);
+
+    protected void intercambiar(int i, int j) {
+        int tmp = this.nodo[i];
+        this.nodo[i] = this.nodo[j];
+        this.nodo[j] = tmp;
+    }
+
+    private void hundir(int i) {
+        if (!this.esHoja(i)) {
+            if (!this.tieneHijoUnico(i)) {
+                if (!this.condicion(this.hijoIzquierdo(i), i) || !this.condicion(this.hijoDerecho(i), i)) {
+                    if (!this.condicion(this.hijoIzquierdo(i), this.hijoDerecho(i))) {
+                        this.intercambiar(i, this.hijoIzquierdo(i));
+                        this.hundir(this.hijoIzquierdo(i));
+                    } else {
+                        this.intercambiar(this.hijoDerecho(i), i);
+                        this.hundir(this.hijoDerecho(i));
+                    }
+                }
+            } else {
+                if (!this.condicion(this.hijoIzquierdo(i), i)) {
+                    this.intercambiar(i, this.hijoIzquierdo(i));
+                    this.hundir(this.hijoIzquierdo(i));
+                }
+            }
         }
-        
-        for (int j = 0; j < numElem; j++) {
-            menor = v[j];
-            //criba(0);
-            //numElem--;
-            Tarea tarea = (Tarea) menor;
-            Evento evento = (Evento)tarea.item;
-            
-            System.out.println(numElem+"---"+evento.getNombre());
-        }
-        
-                     
-    }*/
-            
+    }
+	public int pispear() throws IllegalStateException {
+		if (this.estaVacio()) {
+			throw new IllegalStateException("No se puede pispear un elemento. Montículo vacío.");
+		}
+		return this.nodo[RAIZ];
+	}
+
+	public void mostrar() {
+		for (int i = 1; i <= this.numElem / 2; i++) {
+			System.out.print("Padre: " + this.nodo[i]);
+			if (this.tieneHijoIzquierdo(i)) {
+				System.out.print(" HijoIzquierdo: " + this.nodo[2 * i]);
+			}
+			if (this.tieneHijoDerecho(i)) {
+				System.out.print(" HijoDerecho: " + this.nodo[2 * i + 1]);
+			}
+			System.out.println();
+		}
+	}
 }

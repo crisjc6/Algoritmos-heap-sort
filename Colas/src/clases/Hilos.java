@@ -66,7 +66,7 @@ public class Hilos  extends Thread{
     @Override
     public void run(){        
         try {
-            while(cola.getColaEspera().colaPrioridadVacia()){
+            /*while(cola.getColaEspera().colaPrioridadVacia()){
                 Cliente line = cola.atenderCliente();
                 label.setText(line.getNombre());
                 try {
@@ -79,7 +79,7 @@ public class Hilos  extends Thread{
                 //RowsRenderer rr = new RowsRenderer(3);
                 //tabla.setDefaultRenderer(Object.class, rr);
                 //tabla.repaint();
-            }
+            }*/
             setImagen(null,false);
             
         } catch (ArrayIndexOutOfBoundsException e) {
