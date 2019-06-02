@@ -5,70 +5,57 @@
  */
 package clases;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author carlo
- */
 public class Heapsort {
 
-    private static class DatosCliente  {
+    private static class DatosEvento {
 
         Evento p;
         int urg;
 
-        DatosCliente(Evento p, int urg) {
+        DatosEvento(Evento p, int urg) {
             this.p = p;
             this.urg = urg;
         }
-
-        /**
-         * Comparación de clientes por su urgencia
-         */
-       /* @Override
-        public int compareTo(DatosCliente otro) {
-            return this.urg == otro.urg;
-        }*/
     }
-    private ArrayList<DatosCliente> cliente;
+    private ArrayList<DatosEvento> even;
 
     public Heapsort() {
-        cliente = new ArrayList<DatosCliente>();
+        even = new ArrayList<DatosEvento>();
     }
 
-    public void nuevoCliente(Evento p, int urg) {
-        DatosCliente datos = new DatosCliente(p, urg);
-        cliente.add(datos);
-        sort(cliente);
-                    for (DatosCliente i : cliente) {
-            System.out.println("dato ordenado"+i.p.fecha);
-    }
-        
+    public void nuevoEvento(Evento p, int urg) {
+        DatosEvento datos = new DatosEvento(p, urg);
+        even.add(datos);
+        sort(even);
+        for (DatosEvento i : even) {
+            System.out.println("dato ordenado" + i.p.fecha);
+        }
+
     }
 
-    public void setCliente(ArrayList<DatosCliente> cliente) {
-        this.cliente = cliente;
+    public void setEven(ArrayList<DatosEvento> even) {
+        this.even = even;
     }
 
-    public ArrayList<DatosCliente> getCliente() {
-        return cliente;
+    public ArrayList<DatosEvento> getEven() {
+        return even;
     }
 
-    public Evento atenderCliente() throws NoSuchElementException {
-        DatosCliente datos = getCliente().remove(0);
+    public Evento atenderEvento() throws NoSuchElementException {
+        DatosEvento datos = getEven().remove(0);
         return datos.p;
     }
 
     public DefaultTableModel muestraEstado() {
         System.out.println();
         System.out.println("--Estado de la cola--");
-        System.out.println("No atendidos " + cliente.size());
-        for (DatosCliente datos : cliente) {
-            System.out.println(datos.p.getNombre() + " urgencia:" + datos.urg);
+        System.out.println("No atendidos " + even.size());
+        for (DatosEvento datos : even) {
+            System.out.println(datos.p.getNombre() + datos.urg);
         }
         DefaultTableModel tableModel = new DefaultTableModel() {
             @Override
@@ -77,30 +64,17 @@ public class Heapsort {
             }
         };
 
-        tableModel.addColumn("Apellidos");
-        tableModel.addColumn("Nombres");
-        tableModel.addColumn("Cédula");
-        tableModel.addColumn("Gravedad");
+        tableModel.addColumn("Nombre");
+        tableModel.addColumn("Descripcion");
+        tableModel.addColumn("Fecha");
+        tableModel.addColumn("Teléfono");
         int pos = 0;
         Object[] fila = new Object[4];
-        for (DatosCliente datos : cliente) {
-            fila[0] = datos.p.getApellido();
-            fila[1] = datos.p.getNombre();
-            fila[2] = datos.p.getCedula();
-            fila[3] = datos.p.getEmergencia();
-          /*  if (datos.p.getEmergencia() == 0) {
-                fila[3] = "Baja";
-            }
-            if (datos.p.getEmergencia() == 1) {
-                fila[3] = "Media";
-            }
-            if (datos.p.getEmergencia() == 2) {
-                fila[3] = "Alta";
-            }
-            if (datos.p.getEmergencia() == 3) {
-                fila[3] = "Emergencia";
-
-            }*/
+        for (DatosEvento datos : even) {
+            fila[0] = datos.p.getNombre();
+            fila[1] = datos.p.getDescripcion();
+            fila[2] = datos.p.getFecha();
+            fila[3] = datos.p.getTelf();
 
             tableModel.addRow(fila);
             pos++;
@@ -108,9 +82,8 @@ public class Heapsort {
         return tableModel;
     }
 
-    public void sort(ArrayList<DatosCliente> arr) {
+    public void sort(ArrayList<DatosEvento> arr) {
         int n = arr.size();
-
 
         //System.err.println("esta ordenando los valores");
         // Build heap (rearrange array) 
@@ -121,7 +94,7 @@ public class Heapsort {
         // One by one extract an element from heap 
         for (int i = n - 1; i >= 0; i--) {
             // Move current root to end 
-            DatosCliente temp = arr.get(0);
+            DatosEvento temp = arr.get(0);
             arr.set(0, arr.get(i));
             arr.set(i, temp);
 
@@ -133,45 +106,45 @@ public class Heapsort {
 
     // To heapify a subtree rooted with node i which is 
     // an index in arr[]. n is size of heap 
-    void heapify(ArrayList<DatosCliente> arr, int n, int i) {
+    void heapify(ArrayList<DatosEvento> arr, int n, int i) {
         int smallest = i; // Initialize largest as root 
         int l = 2 * i + 1; // left = 2*i + 1 
         int r = 2 * i + 2; // right = 2*i + 2 
 
         // If left child is smaller than root 
-        if (l < n && arr.get(l).p.getEmergencia() > arr.get(smallest).p.getEmergencia()) {
+        if (l < n && arr.get(l).p.getFecha() > arr.get(smallest).p.getFecha()) {
             smallest = l;
         }
 
         // If right child is larger than smaller so far 
-        if (r < n && arr.get(r).p.getEmergencia() > arr.get(smallest).p.getEmergencia()) {
+        if (r < n && arr.get(r).p.getFecha() > arr.get(smallest).p.getFecha()) {
             smallest = r;
         }
 
         // If smaller is not root 
         if (smallest != i) {
-            DatosCliente swap = arr.get(i);
+            DatosEvento swap = arr.get(i);
             arr.set(i, arr.get(smallest));
             arr.set(smallest, swap);
 
             // Recursively heapify the affected sub-tree 
             heapify(arr, n, smallest);
-            
+
         }
     }
 
-    /* A utility function to print array of size n */
-    public void printArray(DatosCliente arr[]) {
+    /* Impresion del array de tamano n  */
+    public void printArray(DatosEvento arr[]) {
         int n = arr.length;
         for (int i = 0; i < n; ++i) {
-            System.out.print(arr[i].p.getEmergencia() + " ");
+            System.out.print(arr[i].p.getFecha() + " ");
         }
         System.out.println();
     }
 
     public int numClientesEnEspera() {
 
-        return cliente.size();
+        return even.size();
 
     }
 }

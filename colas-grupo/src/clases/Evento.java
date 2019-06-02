@@ -5,19 +5,16 @@
  */
 package clases;
 
-/**
- *
- * @author Jorge
- */
 public class Evento {
-    String nombre, apellido, cedula;
-    int fecha;
 
-    public Evento(String nombre, String apellido, String cedula, int emergencia) {
+    String nombre, descripcion;
+    int fecha, telf;
+
+    public Evento(String nombre, String descripcion, int fecha, int telf) {
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.cedula = cedula;
-        this.fecha = emergencia;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.telf = telf;
     }
 
     public String getNombre() {
@@ -28,28 +25,27 @@ public class Evento {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido+"   "+nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    public int getEmergencia() {
+    public int getFecha() {
         return fecha;
     }
 
-    public void setEmergencia(int emergencia) {
-        this.fecha = emergencia;
+    public void setFecha(int fecha) {
+        this.fecha = fecha;
     }
-    
+
+    public int getTelf() {
+        return telf;
+    }
+
+    public void setTelf(int telf) {
+        this.telf = telf;
+    }
 }
