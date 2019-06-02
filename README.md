@@ -14,7 +14,15 @@ Proyecto de algoritmos implementación de colas de prioridad
 Los elementos de la cola de prioridades son objetos con la prioridad de ordenacion, de tal forma que se puedan realizar comparaciones. Esto equivale a que dispongan de un atributo, de tipo ordinal, representando la prioridad del objeto.
 
 
-### Imagen muestra el ingreso total de los eventos al programa 
+## Complejidad del algoritmo
+Nuestro algoritmos heap sort tiene una complejidad de **O nlog(n)** para los casos de mejor, promedio y peor caso esto con respecto al tiempo de ejecución. Para su complejidad en espacion tenemos una **O(1)** Que representa una contante.
+
+## Conclusión
+Aplicar colas de prioridad con montículos es la mejor forma de aproyechar este algoritmo ya que nos permite realizar las misma operaciones antes mensionadas de una manera mas eficente con sus metods de **maxHeap** y **minHeap**.
+
+## Interfaz grafica de la aplicación 
+
+###Imagen muestra el ingreso total de los eventos al programa 
 
 ![image](https://user-images.githubusercontent.com/50051312/58767251-2834c100-854e-11e9-92b1-37c0b434ab0e.png)
 
