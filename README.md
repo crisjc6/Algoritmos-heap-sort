@@ -1,5 +1,5 @@
 # Algoritmos-heap-sort
-Proyecto de algoritmos implementación de colas de prioridad
+Proyecto de algoritmos implementación de colas de prioridad con montículos 
 # Declaracion del TAD cola de prioridad
 
 | Tipo de datos operaciones|Proceso de cada prioridad|
@@ -22,7 +22,7 @@ Aplicar colas de prioridad con montículos es la mejor forma de aproyechar este 
 
 ## Interfaz grafica de la aplicación 
 
-###Imagen muestra el ingreso total de los eventos al programa 
+### Imagen muestra el ingreso total de los eventos al programa 
 
 ![image](https://user-images.githubusercontent.com/50051312/58767251-2834c100-854e-11e9-92b1-37c0b434ab0e.png)
 
