@@ -20,6 +20,13 @@ Nuestro algoritmos heap sort tiene una complejidad de **O nlog(n)** para los cas
 ## Conclusión
 Aplicar colas de prioridad con montículos es la mejor forma de aproyechar este algoritmo ya que nos permite realizar las misma operaciones antes mensionadas de una manera mas eficente con sus metods de **maxHeap** y **minHeap**.
 
+## Diagrama
+
+![image](https://user-images.githubusercontent.com/30965164/58822076-3d682900-85fc-11e9-8435-c22c375906ec.png)
+
+## Simulacion Heap Sort
+
+![image](https://upload.wikimedia.org/wikipedia/commons/f/fe/Heap_sort_example.gif)
 ## Interfaz grafica de la aplicación 
 
 ### Imagen muestra el ingreso total de los eventos al programa 
