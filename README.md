@@ -22,7 +22,7 @@ Aplicar colas de prioridad con montículos es la mejor forma de aproyechar este 
 
 ## Diagrama
 
-![image](https://user-images.githubusercontent.com/30965164/58822076-3d682900-85fc-11e9-8435-c22c375906ec.png)
+![image](https://user-images.githubusercontent.com/50051312/58823808-2e837580-8600-11e9-9164-382262486475.png)
 
 ## Simulacion Heap Sort
 
